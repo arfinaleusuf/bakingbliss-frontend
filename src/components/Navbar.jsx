@@ -20,7 +20,16 @@ export default function Navbar() {
                 }`}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className='font-bold text-white text-2xl'>Baking Bills</div>
+                <div className='flex items-center gap-2'>
+                    <div className='w-15'>
+                        <img src="./image/Baking_Bliss.png" alt="" />
+                    </div>
+                    <div
+                        className={`font-bold text-3xl transition-colors duration-200 ${isScrolled ? "text-black" : "text-white"}`}
+                    >
+                        Baking Bills
+                    </div>
+                </div>
             </div>
         </nav>
     );
