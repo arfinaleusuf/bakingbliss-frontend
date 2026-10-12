@@ -1,13 +1,11 @@
-import Feature from "../components/Feature";
-import Hero from "../components/Hero";
-import Navbar from "../components/Navbar";
+import Feature from '../components/Feature';
+import Footer from '../components/Footer';
 
 const Home = () => {
     return (
         <div>
-            <Navbar/>
-            <Hero/>
             <Feature/>
+            <Footer/>
         </div>
     );
 };
