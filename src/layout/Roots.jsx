@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from "react-router";
-import Footer from '../components/Footer';
-import Feature from '../components/Feature';
+import { IoHome } from "react-icons/io5";
+import { AuthContext } from '../context/AuthProvider';
 
 export default function LayoutWithDrawer() {
     const [isScrolled, setIsScrolled] = useState(false);
+    const { authUser, logout } = useContext(AuthContext)
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -24,7 +26,7 @@ export default function LayoutWithDrawer() {
                 <nav
                     id="navbar"
                     className={`sticky top-0 z-30 w-full transition-all duration-300 ${isScrolled
-                        ? 'glass-nav shadow-lg bg-white/85 dark:bg-slate-950/90 border-b border-slate-200/80 dark:border-slate-800/80 py-3 backdrop-blur-md'
+                        ? 'glass-nav shadow-lg bg-white/85 dark:bg-slate-950/90 py-3 backdrop-blur-md'
                         : 'bg-base-100 backdrop-blur-sm py-4'
                         }`}
                 >
@@ -40,7 +42,7 @@ export default function LayoutWithDrawer() {
                                 />
 
                                 <Link
-                                to={"/"}
+                                    to={"/"}
                                     className={`font-bold text-2xl tracking-tight transition-colors duration-200 ${isScrolled
                                         ? 'text-slate-900 dark:text-white'
                                         : 'text-slate-800 dark:text-slate-100'
@@ -52,21 +54,123 @@ export default function LayoutWithDrawer() {
                         </div>
 
                         {/* Navigation Actions */}
+                        <div className="flex items-center gap-3">
+                            {authUser ? (
+                                <div className="dropdown dropdown-end">
+                                    {/* Dropdown Trigger Button */}
+                                    <div
+                                        tabIndex={0}
+                                        role="button"
+                                        className="btn btn-ghost flex items-center gap-2 px-2 hover:bg-base-200 rounded-full sm:rounded-lg"
+                                    >
+                                        {/* Avatar with fallback letter */}
+                                        <div className="avatar placeholder">
+                                            <div className="w-8 h-8 rounded-full ring ring-primary ring-offset-base-100 ring-offset-1 overflow-hidden bg-primary text-primary-content flex items-center justify-center font-semibold uppercase text-xs">
+                                                {authUser.img_url ? (
+                                                    <img
+                                                        src={authUser.img_url}
+                                                        alt={authUser.username.charAt(0) || "User avatar"}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <span>
+                                                        {authUser.username ? authUser.username.charAt(0).toUpperCase() : 'U'}
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
 
-                        <div className="flex items-center gap-2">
-                            <Link
-                                to="/login"
-                                className={`btn btn-sm sm:btn-md btn-primary transition-colors duration-200 ${isScrolled ? '' : 'btn-outline'
-                                    }`}
-                            >
-                                Login
-                            </Link>
+                                        {/* Username */}
+                                        <span className="font-medium text-sm hidden sm:inline-block">
+                                            {authUser.username}
+                                        </span>
+
+                                        {/* Dropdown Arrow Icon */}
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="size-4 opacity-70 hidden sm:inline-block"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+
+                                    {/* Dropdown Menu Items */}
+                                    <ul
+                                        tabIndex={0}
+                                        className="dropdown-content menu z-[1] mt-2 p-2 shadow-lg bg-base-100 rounded-box w-48 border border-base-200"
+                                    >
+                                        {/* User Info Header (Mobile/Extra context) */}
+                                        <li className="menu-title px-4 py-1 text-xs text-slate-500">
+                                            Signed in as <span className="font-semibold text-slate-800 dark:text-slate-200">{authUser.username}</span>
+                                        </li>
+
+                                        <li>
+                                            <Link to="/profile" className="flex items-center gap-2">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="size-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                                    />
+                                                </svg>
+                                                View Profile
+                                            </Link>
+                                        </li>
+
+                                        <div className="divider my-1"></div>
+
+                                        <li>
+                                            <button
+                                                onClick={logout}
+                                                className="flex items-center gap-2 text-error hover:bg-error/10"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="size-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                                                    />
+                                                </svg>
+                                                Logout
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className={`btn btn-sm sm:btn-md btn-primary transition-colors duration-200 ${isScrolled ? '' : 'btn-outline'
+                                        }`}
+                                >
+                                    Login
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </nav>
                 {/* Page Content */}
                 <main className="">
-                    <Outlet/>
+                    <Outlet />
                 </main>
             </div>
 
@@ -79,8 +183,8 @@ export default function LayoutWithDrawer() {
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
-                <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-16 is-drawer-open:w-64 transition-[width] duration-300">
-                    <ul className="menu w-full grow gap-1 p-3">
+                <div className="flex min-h-full flex-col items-start bg-white shadow-2xl is-drawer-close:w-16 is-drawer-open:w-48 transition-[width] duration-300">
+                    <ul className="menu w-full grow gap-2 p-3">
                         {/* Home Item */}
                         <li>
                             {/* Drawer Toggle Button */}
@@ -97,7 +201,7 @@ export default function LayoutWithDrawer() {
                                     strokeWidth="2"
                                     fill="none"
                                     stroke="currentColor"
-                                    className="size-5"
+                                    className="size-6"
                                 >
                                     <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
                                     <path d="M9 4v16" />
@@ -107,25 +211,14 @@ export default function LayoutWithDrawer() {
                         </li>
 
                         <li>
-                            <button
+                            <Link
+                                to="/"
                                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3"
                                 data-tip="Homepage"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                    strokeLinejoin="round"
-                                    strokeLinecap="round"
-                                    strokeWidth="2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    className="size-5 shrink-0"
-                                >
-                                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-                                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                                </svg>
+                                <IoHome className="text-xl shrink-0" />
                                 <span className="is-drawer-close:hidden font-medium">Homepage</span>
-                            </button>
+                            </Link>
                         </li>
 
                         <li>
