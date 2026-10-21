@@ -38,7 +38,7 @@ export default function Login() {
             const res = await fetch(`${baseurl}/login`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded", // বানান ঠিক করা হয়েছে
+                    "Content-Type": "application/x-www-form-urlencoded",
                 },
                 body: loginData,
             });
