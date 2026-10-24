@@ -36,7 +36,7 @@ export default function LayoutWithDrawer() {
                             <div className="flex items-center gap-2">
 
                                 <img
-                                    src="./image/Baking_Bliss.png"
+                                    src="/image/Baking_Bliss.png"
                                     alt="Baking Bliss Logo"
                                     className="h-9 w-auto object-contain"
                                 />
@@ -110,8 +110,29 @@ export default function LayoutWithDrawer() {
                                             Signed in as <span className="font-semibold text-slate-800 dark:text-slate-200">{authUser.username}</span>
                                         </li>
 
+                                        {authUser?.role === "admin" && (
+                                            <li>
+                                                <Link to="/admin/dashboard" className="flex items-center gap-2">
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        className="size-4"
+                                                        fill="none"
+                                                        viewBox="0 0 24 24"
+                                                        stroke="currentColor"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                                                        />
+                                                    </svg>
+                                                    Admin Dashboard
+                                                </Link>
+                                            </li>
+                                        )}
                                         <li>
-                                            <Link to="/profile" className="flex items-center gap-2">
+                                            <Link to={"/profile"} className="flex items-center gap-2">
                                                 <svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     className="size-4"
