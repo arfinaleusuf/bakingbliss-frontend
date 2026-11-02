@@ -153,7 +153,7 @@ const Add_Product = () => {
                     >
                         <div>
                             <label htmlFor="img_url" className={labelClass}>
-                                Image URL
+                                Upload Your Product Image
                             </label>
                             <div className="flex flex-col gap-3 sm:flex-row">
                                 <label
@@ -181,7 +181,7 @@ const Add_Product = () => {
                                 name="title"
                                 value={form.title}
                                 onChange={handleChange}
-                                placeholder="e.g. Wireless Headphones"
+                                placeholder="e.g. Fresh Cake"
                                 className={inputClass}
                             />
                         </div>
@@ -204,7 +204,7 @@ const Add_Product = () => {
                         <div className="grid gap-5 sm:grid-cols-2">
                             <div>
                                 <label htmlFor="price" className={labelClass}>
-                                    Price ($)
+                                    Price (৳)
                                 </label>
                                 <input
                                     id="price"

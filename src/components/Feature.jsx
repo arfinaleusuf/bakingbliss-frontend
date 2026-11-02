@@ -125,7 +125,7 @@ const Feature = () => {
                   <div>
                     <span className="text-xs text-base-content/50 block">Price</span>
                     <span className="text-xl font-extrabold text-base-content">
-                      ${item.price.toFixed(2)}
+                      ৳{item.price.toFixed(2)}
                     </span>
                   </div>
 
