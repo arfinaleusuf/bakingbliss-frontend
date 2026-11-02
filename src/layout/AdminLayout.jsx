@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from "react-router";
 import { IoHome, IoGrid } from "react-icons/io5";
 import { AuthContext } from '../context/AuthProvider';
+import { MdAssignmentAdd } from "react-icons/md";
 
 export default function AdminLayout() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -237,6 +238,16 @@ export default function AdminLayout() {
                             >
                                 <IoHome className="text-xl shrink-0" />
                                 <span className="is-drawer-close:hidden font-medium">Homepage</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/admin/add_porduct"
+                                className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3"
+                                data-tip="Add Product"
+                            >
+                                <MdAssignmentAdd />
+                                <span className="is-drawer-close:hidden font-medium">Add Product</span>
                             </Link>
                         </li>
 

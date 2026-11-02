@@ -7,6 +7,7 @@ import Profile from "../pages/Profile";
 import AdminProtected from "./AdminProtected";
 import Dashboard from "../pages/admin/Dashboard";
 import AdminLayout from "../layout/AdminLayout";
+import Add_Product from "../pages/admin/Add_Product";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,10 @@ const router = createBrowserRouter([
         path:"dashboard",
         element: <Dashboard/>
       },
-
+      {
+        path:"add_porduct",
+        element: <Add_Product/>
+      }
     ],
   },
 ]);
