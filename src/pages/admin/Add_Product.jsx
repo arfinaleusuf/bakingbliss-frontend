@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { baseurl } from "../../services/BaseUrl";
+import { AuthContext } from "../../context/AuthProvider";
 
 const initialForm = {
     img_url: "",
@@ -14,6 +16,11 @@ const Add_Product = () => {
     const [imgError, setImgError] = useState(false);
     const [loading, setLoading] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const { accessToken: contextToken } = useContext(AuthContext);
+    const accessToken =
+        contextToken ||
+        localStorage.getItem("access_token") ||
+        sessionStorage.getItem("access_token");
 
     const handleImageUpload = async (e) => {
         const file = e.target.files?.[0];
@@ -86,16 +93,29 @@ const Add_Product = () => {
             total_available: Number(form.total_available),
         };
 
+        if (!accessToken) {
+            toast.error("Authentication required. Please log in first.");
+            return;
+        }
+
         setLoading(true);
         try {
-            // Replace with your real API endpoint
-            const res = await fetch("http://localhost:5000/products", {
+            console.log("Access Token:", accessToken);
+            console.log("Request URL:", `${baseurl}/admin/add_product`);
+
+            const res = await fetch(`${baseurl}/admin/add_product`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
                 body: JSON.stringify(product),
             });
 
-            if (!res.ok) throw new Error("Failed to add product");
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => null);
+                throw new Error(errorData?.detail || errorData?.message || "Failed to add product");
+            }
 
             toast.success("Product added successfully!");
             setForm(initialForm);
@@ -136,19 +156,9 @@ const Add_Product = () => {
                                 Image URL
                             </label>
                             <div className="flex flex-col gap-3 sm:flex-row">
-                                <input
-                                    id="img_url"
-                                    type="url"
-                                    name="img_url"
-                                    value={form.img_url}
-                                    onChange={handleChange}
-                                    placeholder="Paste a URL or upload an image"
-                                    className={inputClass}
-                                />
                                 <label
-                                    className={`flex shrink-0 cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-indigo-300 px-5 py-3 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-50 ${
-                                        uploading ? "pointer-events-none opacity-60" : ""
-                                    }`}
+                                    className={`flex shrink-0 cursor-pointer items-center justify-center rounded-xl border-2 border-dashed border-indigo-300 px-5 py-3 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-50 ${uploading ? "pointer-events-none opacity-60" : ""
+                                        }`}
                                 >
                                     {uploading ? "Uploading..." : "Upload"}
                                     <input

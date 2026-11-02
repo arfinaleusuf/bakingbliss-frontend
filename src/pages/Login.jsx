@@ -14,7 +14,7 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
-    const { loading, setLoading, setAuthUser, logout } =
+    const { loading, setLoading, setAuthUser, setAccessToken, logout } =
         useContext(AuthContext);
 
     const handleChange = (e) => {
@@ -64,6 +64,9 @@ export default function Login() {
                 localStorage.setItem("access_token", accessToken);
             } else {
                 sessionStorage.setItem("access_token", accessToken);
+            }
+            if (setAccessToken) {
+                setAccessToken(accessToken);
             }
 
             const userRes = await fetch(`${baseurl}/user`, {

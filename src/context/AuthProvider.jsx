@@ -40,7 +40,7 @@ const AuthProvider = ({ children }) => {
         }
         fetchUser();
     }, [accessToken]);
-    
+
     const logout = () => {
         localStorage.removeItem('access_token');
         setAuthUser(null);

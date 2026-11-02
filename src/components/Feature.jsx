@@ -1,70 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-
-// আপনার ব্যাকএন্ড এপিআই রেডি না থাকলে টেস্ট করার জন্য ডেমো ডাটা
-const fallbackProducts = [
-  {
-    id: 1,
-    name: "Classic Sourdough Loaf",
-    category: "Artisan Bread",
-    price: 6.5,
-    rating: 4.9,
-    reviews: 128,
-    image: "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04?auto=format&fit=crop&w=600&q=80",
-    badge: "Bestseller",
-    description: "Crusty golden exterior with a light, airy, and tangy open crumb."
-  },
-  {
-    id: 2,
-    name: "Butter Croissant",
-    category: "Viennoiserie",
-    price: 3.75,
-    rating: 4.8,
-    reviews: 94,
-    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
-    badge: "Fresh Baked",
-    description: "Made with authentic French butter, folded into 27 flaky layers."
-  },
-  {
-    id: 3,
-    name: "Wild Berry Tart",
-    category: "Pastries",
-    price: 5.25,
-    rating: 5.0,
-    reviews: 62,
-    image: "https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=600&q=80",
-    badge: "Chef's Special",
-    description: "Sweet pastry crust with vanilla mascarpone and fresh farm berries."
-  },
-  {
-    id: 4,
-    name: "Dark Chocolate Babka",
-    category: "Sweet Breads",
-    price: 8.0,
-    rating: 4.9,
-    reviews: 79,
-    image: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=600&q=80",
-    badge: "Popular",
-    description: "Swirled with 70% dark Belgian cocoa and spiced cinnamon streusel."
-  }
-];
+import { baseurl } from "../services/BaseUrl";
 
 const Feature = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
-    // এখানে আপনার API fetch কল করবেন
-    // উদাহরণস্বরূপ: fetch('/api/featured-products')
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        // সিমুলেটেড ফেচ ডিলে (বাস্তব এপিআই না থাকলে ডেমো ডাটা লোড হবে)
-        await new Promise((resolve) => setTimeout(resolve, 800));
-        setProducts(fallbackProducts);
+
+        const response = await fetch(`${baseurl}/feature`);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch featured products");
+        }
+        const data = await response.json();
+
+        // Handle API response
+        const productList = Array.isArray(data)
+          ? data
+          : data.products || data.data || [];
+
+        setProducts(productList);
+
       } catch (error) {
         console.error("Error fetching products:", error);
-        setProducts(fallbackProducts);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -123,7 +85,7 @@ const Feature = () => {
               {/* Product Image & Badge */}
               <figure className="relative h-48 w-full overflow-hidden bg-base-200">
                 <img
-                  src={item.image}
+                  src={item.img_url}
                   alt={item.name}
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
