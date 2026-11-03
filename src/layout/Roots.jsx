@@ -33,13 +33,25 @@ export default function LayoutWithDrawer() {
                     <div className="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center gap-3">
                             {/* Brand Logo & Name */}
-                            <div className="flex items-center gap-2">
 
+                            <label
+                                htmlFor="my-drawer-4"
+                                aria-label="open sidebar"
+                                className="btn btn-square btn-ghost drawer-button"
+                            >
                                 <img
                                     src="/image/Baking_Bliss.png"
                                     alt="Baking Bliss Logo"
                                     className="h-9 w-auto object-contain"
                                 />
+                            </label>
+                            <div className="flex items-center gap-2">
+
+                                {/* <img
+                                    src="/image/Baking_Bliss.png"
+                                    alt="Baking Bliss Logo"
+                                    className="h-9 w-auto object-contain"
+                                /> */}
 
                                 <Link
                                     to={"/"}
