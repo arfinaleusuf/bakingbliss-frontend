@@ -35,13 +35,17 @@ export default function AdminLayout() {
                         <div className="flex items-center gap-3">
                             {/* Brand Logo & Name */}
                             <div className="flex items-center gap-2">
-
-                                <img
-                                    src="/image/Baking_Bliss.png"
-                                    alt="Baking Bliss Logo"
-                                    className="h-9 w-auto object-contain"
-                                />
-
+                                <label
+                                    htmlFor="my-drawer-4"
+                                    aria-label="open sidebar"
+                                    className="btn btn-square btn-ghost drawer-button"
+                                >
+                                    <img
+                                        src="/image/Baking_Bliss.png"
+                                        alt="Baking Bliss Logo"
+                                        className="h-9 w-auto object-contain"
+                                    />
+                                </label>
                                 <Link
                                     to={"/admin/dashboard"}
                                     className={`font-bold text-2xl tracking-tight transition-colors duration-200 ${isScrolled
@@ -246,7 +250,7 @@ export default function AdminLayout() {
                                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center gap-3"
                                 data-tip="Add Product"
                             >
-                                <MdAssignmentAdd />
+                                <MdAssignmentAdd className='text-xl'/>
                                 <span className="is-drawer-close:hidden font-medium">Add Product</span>
                             </Link>
                         </li>
