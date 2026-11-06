@@ -90,7 +90,7 @@ const Profile = () => {
             </div>
             <button
               onClick={() => navigate('/edit_profile')}
-              className="rounded-lg bg-indigo-600 px-5 py-2.5 font-semibold text-white transition hover:bg-indigo-700"
+              className="ml-auto block w-fit rounded-lg bg-indigo-600 px-8 py-2.5 font-semibold text-white transition hover:bg-indigo-700"
             >
               Edit Profile
             </button>
