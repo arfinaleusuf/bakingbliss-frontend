@@ -8,6 +8,7 @@ import AdminProtected from "./AdminProtected";
 import Dashboard from "../pages/admin/Dashboard";
 import AdminLayout from "../layout/AdminLayout";
 import Add_Product from "../pages/admin/Add_Product";
+import Edit_Profile from "../pages/Edit_Profile";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,11 @@ const router = createBrowserRouter([
         {
           path: "/profile",
           element: <Profile/>
-        }
+        },
+        {
+          path: "/edit_profile",
+          element: <Edit_Profile/>
+        },
     ],
   },
   {
